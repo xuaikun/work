@@ -19,3 +19,9 @@ http://www.cnblogs.com/xiaoxuebiye/p/9890205.html
 aip-python-sdk-2.2.4  需要放到python环境安装的的磁盘底下（或者若python环境默认安装，则放在用户文件夹），进入添加环境变量，Path里面添加
 c:\user\aip-python-sdk-2.2.4\bin(安装路径为你python环境的安装路径)
 如文档所示：https://www.cnblogs.com/szy123618/p/4264451.html
+
+完成后可以在命令行里面输入：
+from aip import AipFace
+进行测试
+对于在pychram里面运行程序，可能需要修改python运行的环境（anconada 包含了python2，python3 百度的python环境常用python2）
+https://jingyan.baidu.com/article/a3a3f81126031e8da3eb8a63.html
