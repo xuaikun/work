@@ -14,3 +14,8 @@ twisted 18.7.0 requires PyHamcrest>=1.9.0, which is not installed.
 grin 1.2.1 requires argparse>=1.1, which is not installed.
 可以参考下文：
 http://www.cnblogs.com/xiaoxuebiye/p/9890205.html
+
+安装python-sdk时
+aip-python-sdk-2.2.4  需要放到python环境安装的的磁盘底下（或者若python环境默认安装，则放在用户文件夹），进入添加环境变量，Path里面添加
+c:\user\aip-python-sdk-2.2.4\bin(安装路径为你python环境的安装路径)
+如文档所示：https://www.cnblogs.com/szy123618/p/4264451.html
