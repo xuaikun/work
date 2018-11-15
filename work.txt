@@ -8,3 +8,9 @@ https://cloud.baidu.com/doc/FACE/Face-Python-SDK.html#.E9.85.8D.E7.BD.AEAipFace
 
 python sdk
 aip-python-sdk-2.2.4 下载  https://ai.baidu.com/sdk#bfr
+
+在执行安装python-sdk过程中执行：pip baidu-aip 出现以下问题：
+twisted 18.7.0 requires PyHamcrest>=1.9.0, which is not installed.
+grin 1.2.1 requires argparse>=1.1, which is not installed.
+可以参考下文：
+http://www.cnblogs.com/xiaoxuebiye/p/9890205.html
