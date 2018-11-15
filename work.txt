@@ -29,3 +29,5 @@ https://jingyan.baidu.com/article/a3a3f81126031e8da3eb8a63.html
 切换环境就是等待~
 
 实测已经成功
+
+由于百度提供的SDK接口的QPS不能超过一定值，所以使用人脸比对API时需要稍微延时一下（因为我们使用的是免费的）
