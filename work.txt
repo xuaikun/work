@@ -1,0 +1,10 @@
+API接口： https://console.bce.baidu.com/ai/?_=1542208053975&fromai=1#/ai/face/overview/index
+
+Python SDK文档（总的）：
+http://ai.baidu.com/docs#/Face-Python-SDK/top
+
+python SDK文档（部分）：
+https://cloud.baidu.com/doc/FACE/Face-Python-SDK.html#.E9.85.8D.E7.BD.AEAipFace
+
+python sdk
+aip-python-sdk-2.2.4 下载  https://ai.baidu.com/sdk#bfr
