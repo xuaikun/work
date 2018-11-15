@@ -16,3 +16,4 @@
 
 2018年11月16日：
    第四天，凌晨将Not_Sure的python auto筛选方式解决了~
+   明天早上把Same和Different文件夹的解决~
