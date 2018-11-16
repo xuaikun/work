@@ -4,6 +4,7 @@ from aip import AipFace
 import base64
 import random
 import time
+import shutil
 
 # 调试标志 Flag = True为调试状态  Flag = False 为不调试状态
 Flag = True
@@ -70,7 +71,6 @@ def JudgeSame(Filepath):
     goal1 = Face_To_Match(Figure1, Figure2)
     time.sleep(0.4)         #延时的目的 防止每秒向服务器发送的请求数qps异常
     goal2 = Face_To_Match(Figure3, Figure4)
-
     time.sleep(0.4)         #延时的目的 防止每秒向服务器发送的请求数qps异常
     # 获得两个评分Score1 和 Score2
     result1 = goal1.get('result')  # 得到result这个字典包含的元素
@@ -79,10 +79,10 @@ def JudgeSame(Filepath):
     result2 = goal2.get('result')  # 得到result这个字典包含的元素
     score2  = float(result2.get('score'))  # 从字典result中获得比较分值
 
-    print('score1 = ')
-    print (score1)
-    print('score2 = ')
-    print (score2)
+    # print('score1 = ')
+    # print (score1)
+    # print('score2 = ')
+    # print (score2)
     # 随机选取的4张图片中，两两之间相似度既有超过60%的，又有小于60%的 故将此文件夹的上一层文件夹存入Not_Sure文件夹中
     if((score1 >= 60 and score2 <= 60) or (score1 <= 60 and score2 >= 60)):
         Judge_Flag = True
@@ -109,24 +109,30 @@ def Second_Folder(filepath):
 def PreocessTwoFloder(filepath):
     # FileName_List 有n个文件名集为列表
     FileName_List = fileInFolder(filepath)
+    # 获取此文件夹下有多少文件
     lenght = FileName_List.__len__()
-    print('lenght is ')
-    print(lenght)
+    # print('lenght is ')
+    # print(lenght)
     for path in FileName_List:
-        print (path)
-        print(type(path))
+        # print (path)   # 获得要操作的第三层文件夹名称
+        SplitPath = os.path.split(path)   # 将文件路径的前半部分与最后一级分割开
+        # SplitPath[0]  为前半部分路径
+        # SplitPath[1]  为最后一级路径名称
         time.sleep(0.1)
-        #Second_Folder(path)
-        '''
-        result = A.Second_Folder(path)
+        # 将目标目录与操作目录最后一级拼接获得JoinPath
+        JoinPath = os.path.join('E:\\000007work\\test\\Not_sure',SplitPath[1])
+        #print(JoinPath)
+
+        result = Second_Folder(path)
         print ('Judge result = ' )
         print (result)
+        #  result = True  --> Not_Sure
+        #  result = False --> Same or Different
 
         if(result == True): #说明此文件夹中的图片不明确，将其上一层文件夹剪切入Not_Sure中
             print("Not_Sure")
-            #将含有不明确的图片的文件夹的第二层文件夹剪切到Not_Sure中
-            shutil.move(path, 'D:\\test\\Not_sure\\Compare')  #回去好好想想 新的路径该怎么修改
-        elif(result == False): #说明此文件夹相对明确~，继续判断
+            # 将含有不明确的图片的文件夹的第二层文件夹剪切到Not_Sure中
+            shutil.move(path, JoinPath)  # 回去好好想想 新的路径该怎么修改
+        elif(result == False): # 说明此文件夹相对明确~，继续判断
             print("Same or Different")
-        '''
     return
