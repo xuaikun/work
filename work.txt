@@ -33,3 +33,10 @@ https://jingyan.baidu.com/article/a3a3f81126031e8da3eb8a63.html
 由于百度提供的SDK接口的QPS不能超过一定值，所以使用人脸比对API时需要稍微延时一下（因为我们使用的是免费的）
 
 python文件以及目录操作可以参考：https://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/0013868321590543ff305fb9f9949f08d760883cc243812000
+
+在程序运行过程中出现以下异常：
+goal = 
+{u'log_id': 1345050723414412131L, u'timestamp': 1542341441, u'cached': 0, u'result': None, u'error_code': 222202, u'error_msg': u'pic not has face'}
+result = 
+None
+没有找到图片，尴尬啦~不过没事，写个异常处理应该就可以了~
