@@ -10,16 +10,14 @@ https://cloud.baidu.com/doc/FACE/Face-Python-SDK.html#.E9.85.8D.E7.BD.AEAipFace
 python sdk 安装包下载：
 aip-python-sdk-2.2.4 下载  https://ai.baidu.com/sdk#bfr
 
-在执行安装python-sdk过程中执行：pip baidu-aip 出现以下问题：
-twisted 18.7.0 requires PyHamcrest>=1.9.0, which is not installed.
-grin 1.2.1 requires argparse>=1.1, which is not installed.
-可以参考下文：
-http://www.cnblogs.com/xiaoxuebiye/p/9890205.html
-
+安装python SDK的方法有两种：
+第一种：
 安装python-sdk时
 aip-python-sdk-2.2.4  需要放到python环境安装的的磁盘底下（或者若python环境默认安装，则放在用户文件夹），进入添加环境变量，Path里面添加
 c:\user\aip-python-sdk-2.2.4\bin(安装路径为你python环境的安装路径)
 如文档所示：https://www.cnblogs.com/szy123618/p/4264451.html
+
+设置好环境变量后：通过cmd命令行模式，进入c:\user\aip-python-sdk-2.2.4  通过命令python setup.py install  编译安装python SDK
 
 完成后可以在命令行里面输入：
 from aip import AipFace
@@ -29,6 +27,14 @@ https://jingyan.baidu.com/article/a3a3f81126031e8da3eb8a63.html
 切换环境就是等待~
 
 实测已经成功
+
+第二种:（这是百度SDK操作文档给的，好像对环境要求，第一种方法基本OK）
+在执行安装python-sdk过程中执行：pip baidu-aip 出现以下问题：
+twisted 18.7.0 requires PyHamcrest>=1.9.0, which is not installed.
+grin 1.2.1 requires argparse>=1.1, which is not installed.
+可以参考下文：
+http://www.cnblogs.com/xiaoxuebiye/p/9890205.html
+
 
 由于百度提供的SDK接口的QPS不能超过一定值，所以使用人脸比对API时需要稍微延时一下（因为我们使用的是免费的）
 
