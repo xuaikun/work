@@ -46,3 +46,9 @@ goal =
 result = 
 None
 没有找到图片，尴尬啦~不过没事，写个异常处理应该就可以了~
+try:
+  # 异常测试
+except AttributeError:
+  # 异常处理
+else:
+  # 没有异常
