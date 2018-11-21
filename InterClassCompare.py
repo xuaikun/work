@@ -64,11 +64,8 @@ def SecondFilder(FilePath):
         #   print ("PhotoNum is 1")
         # elif PhotoNum%2 == 0:   # PhotoNum 为偶数
         # 要取10对照片也就是20张，用来做比较
-        # Same 表示 比较的图片是同一个人的的对数
-        # Different 表示比较的图片 不是通同一个人的对数
+
         # 对每张图片进行遍历
-        Same = 0
-        Different = 0
         for k in range(0, PhotoNum):
             # 终止条件为 遍历到最后一张图片
             NewPhoto = A.fileInFolder(path)
@@ -76,11 +73,14 @@ def SecondFilder(FilePath):
             # 每次执行完都得 重新统计 该文件夹中文件的数量
             NewPhotoNum = NewPhoto.__len__()
             print 'NewPhotoNum = ', NewPhotoNum
+            # Same 表示 比较的图片是同一个人的的对数
+            # Different 表示比较的图片 不是通同一个人的对数
+            Same = 0
+            Different = 0
             # 再次遍历整个文件夹中文件的数量
             for q in range(0, NewPhotoNum):
                 print 'q = ', q
                 print 'k = ', k
-
                 # 保证两张图片不是同一张
                 if Photo[k] != NewPhoto[q]:
                     print 'Photo[k] =', Photo[k]
@@ -104,8 +104,13 @@ def SecondFilder(FilePath):
                         score = result.get('score')
                     except AttributeError:
                         # 异常处理
-                        result = {}
-                        score = 0
+                        # result = {}
+                        # score = 0
+                        print "进行异常处理"
+                        print 'Same =', Same
+                        print 'Different = ', Different
+                        NewPhotoNum = NewPhotoNum - 1
+                        # Different = Different + 1
                     else:
                         # 确定基准库的方法以及阈值
                         # 没有异常
@@ -115,30 +120,42 @@ def SecondFilder(FilePath):
                             # print ('Same = ', Same)
                         elif score < 60:
                             Different = Different + 1
-            if Same/PhotoNum < 0.5:
-                # 删除Photo[k]
-                # Photo[k] 应该为图片名称
-                PhotoPath = os.path.split(Photo[k])
-                # PhotoPath[0] = D:\testdata\1253\6791
-                # PhotoPath[1] = m.01mbt1x_44-FaceId-0.jpg
-                NewPhotoPath =  os.path.split(PhotoPath[0])
-                # NewPhotoPath [0] = D:\testdata\1253
-                # NewPhotoPath [1] = 6791
-                oldName = NewPhotoPath [1]
-                NewPhotoPath = os.path.join(NewPhotoPath[0], 'Different')
-                # NewPhotoPath = D:\testdata\1253\Different
-                NewPhotoPath = os.path.join(NewPhotoPath, oldName)
-                print ('NewPhotoPath =', NewPhotoPath)
-                # NewPhotoPath = D:\testdata\1253\Different\6791
-                print "Photo[k] = ", Photo[k]
-                print 'NewPhotoPath = ', NewPhotoPath
-                # os.remove('1.jpg') # 这里可以删除文件
-                # 一定要确认查找的路径是否存在
-                isExist = os.path.exists(NewPhotoPath)
-                if not isExist:
-                    print "不存在该路径，创建对应路径"
-                    os.makedirs(NewPhotoPath)
-                shutil.move(Photo[k], NewPhotoPath)   # 将不同的图片剪切到 新的文件夹底下 路径一定要判断存在
+                    # 如果一张图片与文件夹中50%以上图片不相同，则可以直接移除
+                    print 'Different = ', Different
+                    print 'NewPhotoNum = ', NewPhotoNum
+                    print 'Same = ', Same
+                    print 'Different/NewPhotoNum = ', float(float(Different)/float(NewPhotoNum))
+                    print 'Same/NewPhotoNum = ', float(float(Same)/float(NewPhotoNum))
+                    if float(float(Different)/float(NewPhotoNum)) >= 0.5:
+                        print '&&&&&&&&&&&&&&&&&&&&删除#######################'
+                        # 删除Photo[k]
+                        # Photo[k] 应该为图片名称
+                        PhotoPath = os.path.split(Photo[k])
+                        # PhotoPath[0] = D:\testdata\1253\6791
+                        # PhotoPath[1] = m.01mbt1x_44-FaceId-0.jpg
+                        NewPhotoPath =  os.path.split(PhotoPath[0])
+                        # NewPhotoPath [0] = D:\testdata\1253
+                        # NewPhotoPath [1] = 6791
+                        oldName = NewPhotoPath[1]
+                        NewPhotoPath = os.path.join(NewPhotoPath[0], 'Different')
+                        # NewPhotoPath = D:\testdata\1253\Different
+                        NewPhotoPath = os.path.join(NewPhotoPath, oldName)
+                        print ('NewPhotoPath =', NewPhotoPath)
+                        # NewPhotoPath = D:\testdata\1253\Different\6791
+                        print "Photo[k] = ", Photo[k]
+                        print 'NewPhotoPath = ', NewPhotoPath
+                        # os.remove('1.jpg') # 这里可以删除文件
+                        # 一定要确认查找的路径是否存在
+                        isExist = os.path.exists(NewPhotoPath)
+                        if not isExist:
+                            print "不存在该路径，创建对应路径"
+                            os.makedirs(NewPhotoPath)
+                        shutil.move(Photo[k], NewPhotoPath)   # 将不同的图片剪切到 新的文件夹底下 路径一定要判断存在
+                        break
+                    # 一张图片与其中的60%以上的图片相似，则可以认为其属于该文件夹，进入下一次选择
+                    if float(float(Same) / float(NewPhotoNum)) >= 0.6:
+                        print '&&&&&&&&&&&&&&&&&&&&保留#######################'
+                        break
     return
 
 # 程序从这里开始执行
