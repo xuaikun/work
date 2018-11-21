@@ -9,10 +9,10 @@ import shutil
 # 获取当前路径下所以子文件【可以是文件夹，也可以是文件】
 # A.fileInFolder()
 
-TestFileName = "D:\\000000Aikun_Xu\\Aikun_Xu\\0000work\\3_test"
-BackupFileName = "D:\\000000Aikun_Xu\\Aikun_Xu\\0000work\\3_test_backup"
+TestFileName = "D:\\2222_test"
+BackupFileName = "D:\\222222222222222222 - Backup"
 PoolFileName = "D:\\000000Aikun_Xu\\Aikun_Xu\\0000work\\3_pool"
-ResulFiletName = "D:\\000000Aikun_Xu\Aikun_Xu\\0000work\\result"
+ResulFiletName = "D:\\2222_result"
 
 def root_folder():
     # 获取测试目录下文件夹的总和
@@ -103,7 +103,7 @@ def second_folder(filepath):
             BaseComp_Same = 0
             BaseComp_Different = 0
             #两个文件夹各取出10张照片进行比较
-            for i in range(0,10):
+            for i in range(0, 10):
                 # 随机取位置
                 a = random.randint(0, BaseFolderNum - 1)
                 b = random.randint(0, CompFolderNum - 1)
@@ -167,9 +167,10 @@ if __name__ == "__main__":
     start = time.time()
     print ('programming is beginning……')
 
-    # B.MoveChildFolder(BackupFileName ,TestFileName ,'copytree')  # 将备份的文件copy到测试文件夹
-    B.DeleteNoneFolder(TestFileName )                              # 剔除空当前文件夹中空的文件夹
+    # B.MoveChildFolder(BackupFileName, TestFileName, 'copytree')  # 将备份的文件copy到测试文件夹
+    B.DeleteNoneFolder(TestFileName)                              # 剔除空当前文件夹中空的文件夹
     root_folder()                                                  # 对测试文件夹进行操作
+    B.DeleteNoneFolder(TestFileName)
     print ('programming is ending……')
     end = time.time()
     print ('spend time = ', end - start, 's')
