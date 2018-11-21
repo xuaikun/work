@@ -1,5 +1,4 @@
 # encoding: utf-8
-# encoding:utf-8
 import Function as A                            # 调用Function.py里面定义的函数
 import os
 import Face_Match as B                          # 调用Face_Match.py里面定义的函数
@@ -10,8 +9,8 @@ import shutil
 # 获取当前路径下所以子文件【可以是文件夹，也可以是文件】
 # A.fileInFolder()
 
-TestFileName = "D:\\testdata"
-BackupFileName = "D:\\2222_result"
+TestFileName = "E:\\000007work\\testdata"
+BackupFileName = "E:\\000007work\\testdata_backup"
 PoolFileName = "D:\\000000Aikun_Xu\\Aikun_Xu\\0000work\\3_pool"
 
 
@@ -20,13 +19,13 @@ def RootFilder():
     SecondPath = A.fileInFolder(TestFileName)       # 获取根目录下的文件夹总和 例如：D:\\3_test\\445
     # 统计测试目录下文件夹的数量
     SecondPathFileNum = SecondPath.__len__()
-    # print ('SecondPathFileNum = ', SecondPathFileNum)
-    # print ('SecondPath = ', SecondPath)
+    print ('SecondPathFileNum = ', SecondPathFileNum)
+    print ('SecondPath = ', SecondPath)
     for i in range(0, SecondPathFileNum):
         # path 是第二层 文件夹的总和
         # SecondPath[i] 在第二层总和文件夹中表示单个取出来操作
         path = SecondPath[i]                     # 第二层目录单个文件夹路径    例如：path = D:\\3_test\\445
-        # print ('SecondPath[ ',i ,'] = ' ,SecondPath[i])
+        print ('SecondPath[ ', i, '] = ', SecondPath[i])
         B.DeleteNoneFolder(path)                 # 没有图片的文件夹都被删除了
 
         SecondFilder(path)           # 里面的文件夹都有图片
@@ -42,21 +41,21 @@ def SecondFilder(FilePath):
     ThreePath = A.fileInFolder(FilePath)        # 获取第三层目录下的文件夹总和 例如：D:\\3_test\\445\\49
     # 统计第三层文件夹中有多少个子文件夹
     ThreePathFileNum = ThreePath.__len__()
-    # print (ThreePathFileNum)
-    # print (ThreePath)
+    # print ('ThreePathFileNum = ', ThreePathFileNum)
+    # print ('ThreePath = ', ThreePath)
     for i in range(0, ThreePathFileNum):
         # print ('ThreePathFileNum = ', ThreePathFileNum)
         # 将文件夹一个一个遍历
         path = ThreePath[i]
-        # print ('ThreePath[ ', i, '] = ', path)
-        # print ('ThreePath = ')                 # 第三层目录下的单个文件夹名称 例如：path = D:\\3_test\\445\\49
-        # print (path)
+        print ('ThreePath[ ', i, '] = ', path)
+        # 第三层目录下的单个文件夹名称 例如：path = D:\\3_test\\445\\49
         # 将单个文件夹的所有图片提取出来放到Photo中
         # 现在已经到一个文件最深的地方了，并且把所有图片找出来了
         Photo = A.fileInFolder(path)
         # 获取到文件夹下的图片总和 例如：path =  D:\\3_test\\445\\49\\1534601783,1235657667_align.jpg
         # 统计图片数量
         PhotoNum = Photo.__len__()
+        # print ('Photo = ', Photo)
         # 应该对照片数量进行判断
         # 1张 2张 大于3张
         # Photo[0] 表示第一张图片
@@ -75,15 +74,22 @@ def SecondFilder(FilePath):
             NewPhoto = A.fileInFolder(path)
             # 获取到文件夹下的图片总和 例如：path =  D:\\3_test\\445\\49\\1534601783,1235657667_align.jpg
             # 每次执行完都得 重新统计 该文件夹中文件的数量
-            NewPhotoNum = Photo.__len__()
+            NewPhotoNum = NewPhoto.__len__()
+            print 'NewPhotoNum = ', NewPhotoNum
             # 再次遍历整个文件夹中文件的数量
             for q in range(0, NewPhotoNum):
-                # Photo[k]
-                # NewPhoto[q]
+                print 'q = ', q
+                print 'k = ', k
+
                 # 保证两张图片不是同一张
                 if Photo[k] != NewPhoto[q]:
+                    print 'Photo[k] =', Photo[k]
+                    print 'NewPhoto[q]', NewPhoto[q]
                     # 这两张图片进行比较
-                    goal = A.Face_To_Match(Photo[k], Photo[q])
+                    # print 'Photo[k] = ', Photo[k]
+                    # print 'NewPhoto[q] = ', NewPhoto[q]
+                    time.sleep(0.4)
+                    goal = A.Face_To_Match(Photo[k], NewPhoto[q])
                     time.sleep(0.4)  # 延时0.4s QPS不免费调用接口容易出错
                     # 应该做个异常处理 (必须做)
                     # try:
@@ -119,16 +125,20 @@ def SecondFilder(FilePath):
                 # NewPhotoPath [0] = D:\testdata\1253
                 # NewPhotoPath [1] = 6791
                 oldName = NewPhotoPath [1]
-                NewPhotoPath = os.path.join(NewPhotoPath[1], 'Different')
+                NewPhotoPath = os.path.join(NewPhotoPath[0], 'Different')
                 # NewPhotoPath = D:\testdata\1253\Different
                 NewPhotoPath = os.path.join(NewPhotoPath, oldName)
+                print ('NewPhotoPath =', NewPhotoPath)
                 # NewPhotoPath = D:\testdata\1253\Different\6791
                 print "Photo[k] = ", Photo[k]
-                print ("删除该图片")
-                shutil.move(Photo[k], NewPhotoPath)   # 将不同的图片剪切到 新的文件夹底下
-            # else:
-                # 保留这张图片
-                # print ("保留")
+                print 'NewPhotoPath = ', NewPhotoPath
+                # os.remove('1.jpg') # 这里可以删除文件
+                # 一定要确认查找的路径是否存在
+                isExist = os.path.exists(NewPhotoPath)
+                if not isExist:
+                    print "不存在该路径，创建对应路径"
+                    os.makedirs(NewPhotoPath)
+                shutil.move(Photo[k], NewPhotoPath)   # 将不同的图片剪切到 新的文件夹底下 路径一定要判断存在
     return
 
 # 程序从这里开始执行
@@ -136,10 +146,10 @@ def SecondFilder(FilePath):
 
 if __name__ == "__main__":
     # 程序开始
-    print ('programming is begining……')
+    print ('programming is beginning……')
     start = time.time()
     # B.MoveChildFolder(BackupFileName ,TestFileName ,'copytree')  # 将备份的文件copy到测试文件夹
-    B.DeleteNoneFolder(TestFileName )                              #  剔除空当前文件夹中空的文件夹
+    B.DeleteNoneFolder(TestFileName)                               #  剔除空当前文件夹中空的文件夹
     RootFilder()                                                   # 对测试文件夹进行操作
     end = time.time()
 
