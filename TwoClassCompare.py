@@ -179,7 +179,7 @@ while exceptFlag:
         print "测试异常"
         start()
         RootPath = A.fileInFolder(TestFileName)
-        # 统计第三层文件夹中有多少个子文件夹
+        # 统计目标文件夹的文件数量 作为终止条件
         RootPathFileNum = RootPath.__len__()
         if RootPathFileNum == 0:
             exceptFlag = False
