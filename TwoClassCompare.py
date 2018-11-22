@@ -9,10 +9,10 @@ import shutil
 # 获取当前路径下所以子文件【可以是文件夹，也可以是文件】
 # A.fileInFolder()
 
-TestFileName = "D:\\2222_test"
+TestFileName = "E:\\000007work\\testdata"
 BackupFileName = "D:\\222222222222222222 - Backup"
 PoolFileName = "D:\\000000Aikun_Xu\\Aikun_Xu\\0000work\\3_pool"
-ResulFiletName = "D:\\2222_result"
+ResulFiletName = "E:\\000007work\\testdata_result"
 
 def root_folder():
     # 获取测试目录下文件夹的总和
@@ -44,6 +44,9 @@ def second_folder(filepath):
     ThreePathFileNum = ThreePath.__len__()
     # print ('ThreePathFileNum = ', ThreePathFileNum)
     # print ('ThreePath', ThreePath)
+    # 定义StorePath用于保存，被选中的路径
+    StorePath = []
+    # 当目前文件夹没有文件时 直接退出，遍历另一个文件夹
     while ThreePathFileNum:
     # for i in range(0, ThreePathFileNum):
         # print ('ThreePathFileNum = ', ThreePathFileNum)
@@ -58,6 +61,7 @@ def second_folder(filepath):
             break
         # print ('ThreePathFileNum = ', ThreePathFileNum)
         # print ('ThreePath', ThreePath)
+        # 每次都从第一个开始遍历
         i = 0
         print ('i =', i)
         path = ThreePath[i]
@@ -69,20 +73,10 @@ def second_folder(filepath):
         # 统计图片数量
         # PhotoNum = Photo.__len__()
         # 主要是为了获得它的最后一级目录名称，以充当它新的目录的名称
+        StorePath.append(path)
         new_path = os.path.split(path)
-        # print ('new_path[1] = ', new_path[1])
         result_path = os.path.join(ResulFiletName, new_path[1])
-        result_path = os.path.join(result_path, new_path[1])
-        # print ('result_path = ', result_path)
-
-        # 将当前的文件夹 剪切到result文件夹底下
-        shutil.move(path, result_path)
         print ("选中第一个文件夹作为基准库，检查该文件夹所在文件夹还有其他文件夹与它文件相似")
-        # print ('Base_path = ', result_path)
-        # 现在图片所在位置 在path里面
-        # path = result_path
-        print ('result_path = ', result_path)
-        # path 基准
         # ThreePath 表示第三层 文件夹的总和
         NewThreePath = A.fileInFolder(filepath)  # 获取第三层目录下的文件夹总和 例如：D:\\3_test\\445\\49
         # 统计第三层文件夹中有多少个子文件夹
@@ -90,73 +84,74 @@ def second_folder(filepath):
         for i in range(0, NewThreePathFileNum):
             # 重新将文件夹一个一个遍历 但是比较的时候，作为基准库的文件夹不需要再一一比较，忽略它
             Newpath = NewThreePath[i]
-            print ('Newpath = ', Newpath)
-            # 如果两次路径不一样，则进行操作
-            # 从当前两个文件夹里面各任意抽出10张图片，即：10对进行比较
-            # BaseFolder 和 CompFolder包含了所有图片
-            BaseFolder = A.fileInFolder(result_path)
-            CompFolder = A.fileInFolder(Newpath)
-            # 统计两个文件夹中图片数量
-            BaseFolderNum = BaseFolder.__len__()
-            CompFolderNum = CompFolder.__len__()
-            # 将比较的两个计数值进行初始化
-            BaseComp_Same = 0
-            BaseComp_Different = 0
-            #两个文件夹各取出10张照片进行比较
-            for i in range(0, 10):
-                # 随机取位置
-                a = random.randint(0, BaseFolderNum - 1)
-                b = random.randint(0, CompFolderNum - 1)
-                # 取出图片
-                BasePhoto = BaseFolder[a]
-                CompPhoto = CompFolder[b]
-                # 调用接口 获取分数
-                time.sleep(1)
-                BaseComp_goal = A.Face_To_Match(BasePhoto, CompPhoto)
-                time.sleep(1)
-                BaseComp_result = {}
-                BaseComp_Score = 0
-                # 要做异常处理，主要防止QPS出现异常
-                try:
-                    # 异常测试
-                    BaseComp_result = BaseComp_goal.get('result')
-                    BaseComp_Score = BaseComp_result.get('score')
-                except AttributeError:
-                    # 异常处理
+            # 保证选取的文件夹与基准文件夹不相同
+            if Newpath != path:
+                print ('Newpath = ', Newpath)
+                # 如果两次路径不一样，则进行操作
+                # 从当前两个文件夹里面各任意抽出10张图片，即：10对进行比较
+                # BaseFolder 和 CompFolder包含了所有图片
+                # BaseFolder = A.fileInFolder(result_path)
+                BaseFolder = A.fileInFolder(path)
+                CompFolder = A.fileInFolder(Newpath)
+                # 统计两个文件夹中图片数量
+                BaseFolderNum = BaseFolder.__len__()
+                CompFolderNum = CompFolder.__len__()
+                # 将比较的两个计数值进行初始化
+                BaseComp_Same = 0
+                BaseComp_Different = 0
+                #两个文件夹各取出10张照片进行比较
+                for i in range(0, 10):
+                    # 随机取位置
+                    a = random.randint(0, BaseFolderNum - 1)
+                    b = random.randint(0, CompFolderNum - 1)
+                    # 取出图片
+                    BasePhoto = BaseFolder[a]
+                    CompPhoto = CompFolder[b]
+                    # 调用接口 获取分数
+                    time.sleep(1)
+                    BaseComp_goal = A.Face_To_Match(BasePhoto, CompPhoto)
+                    time.sleep(1)
                     BaseComp_result = {}
                     BaseComp_Score = 0
-                else:
-                    # BaseComp_Score  程序正常
-                    # print ('BaseComp_Score = ',BaseComp_Score)
-                    if BaseComp_Score > 60:
-                        BaseComp_Same = BaseComp_Same + 1
+                    # 要做异常处理，主要防止QPS出现异常
+                    try:
+                        # 异常测试
+                        BaseComp_result = BaseComp_goal.get('result')
+                        BaseComp_Score = BaseComp_result.get('score')
+                    except AttributeError:
+                        # 异常处理
+                        BaseComp_result = {}
+                        BaseComp_Score = 0
                     else:
-                        BaseComp_Different = BaseComp_Different + 1
-            print ('BaseComp_Same = ', BaseComp_Same )
-            print ('BaseComp_Different', BaseComp_Different)
-            # 这里主要比较两个文件夹中图片的相似度
-            if BaseComp_Same > BaseComp_Different:
-                # 两个文件夹及其相似 放到同一个文件夹底下
-                # 将这个第二层的文件夹 剪切到Same文件夹中
-                SplitPath = os.path.split(result_path)
-                SplitPathNew = os.path.split(Newpath)
-                print ('SplitPath[0] = ', SplitPath[0])
-                print ('SplitPathNew[1] = ', SplitPathNew[1])
-                goal_path = SplitPath[0]
-                goal_path = os.path.join(goal_path, SplitPathNew[1])
-                print ('goal_path = ', goal_path)
-                # SplitPath[0] = D:\\000000Aikun_Xu\\Aikun_Xu\\0000work\\3_test\\445
-                # print ('SplitPath = ', SplitPath[])
-                shutil.move(Newpath, goal_path)
-                print ("######################################")
-                print ("将")
-                print (Newpath)
-                print ("放入")
-                print ( SplitPath[0])
-                print ("######################################")
-            # elif BaseComp_Same <= BaseComp_Different:
-                # 不相同就进入下一个文件夹比较，不做操作
-                # break
+                        # BaseComp_Score  程序正常
+                        # print ('BaseComp_Score = ',BaseComp_Score)
+                        if BaseComp_Score > 60:
+                            BaseComp_Same = BaseComp_Same + 1
+                        else:
+                            BaseComp_Different = BaseComp_Different + 1
+                print ('BaseComp_Same = ', BaseComp_Same )
+                print ('BaseComp_Different', BaseComp_Different)
+                # 这里主要比较两个文件夹中图片的相似度
+                if BaseComp_Same > BaseComp_Different:
+                    # 两个文件夹及其相似 放到同一个文件夹底下
+                    StorePath.append(Newpath)   # 将相似的文件夹保存到一起
+                    print 'StorePath = ', StorePath
+
+        # 可以剪切 StorePath 到目标文件夹了
+        StorePathLen = StorePath.__len__()
+        print 'StorePathLen = ', StorePathLen
+        print '以下的文件夹应该剪切到一块去'
+        for p in range(0, StorePathLen):
+            print 'StorePath[p] = ', StorePath[p]
+            # result_path 是目标文件夹的根
+            # SplitPathNew 主要为了获得 它的最后一级目录
+            SplitPathNew = os.path.split(StorePath[p])
+            goal_path = os.path.join(result_path, SplitPathNew[1])
+            # 创建目标目录
+            shutil.move(StorePath[p], goal_path)   # 将相似的文件夹全部剪切到目标文件夹下
+
+        # 路径数据重新初始化
+        StorePath = []
     return
 
 # 程序从这里开始执行
