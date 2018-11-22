@@ -160,15 +160,33 @@ def SecondFilder(FilePath):
 
 # 程序从这里开始执行
 
+def start():
+    if __name__ == "__main__":
+        # 程序开始
+        start = time.time()
+        print ('programming is beginning……')
 
-if __name__ == "__main__":
-    # 程序开始
-    print ('programming is beginning……')
-    start = time.time()
-    # B.MoveChildFolder(BackupFileName ,TestFileName ,'copytree')  # 将备份的文件copy到测试文件夹
-    B.DeleteNoneFolder(TestFileName)                               #  剔除空当前文件夹中空的文件夹
-    RootFilder()                                                   # 对测试文件夹进行操作
-    end = time.time()
+        # B.MoveChildFolder(BackupFileName, TestFileName, 'copytree')  # 将备份的文件copy到测试文件夹
+        B.DeleteNoneFolder(TestFileName)                              # 剔除空当前文件夹中空的文件夹
+        RootFilder()                                                  # 对测试文件夹进行操作
+        B.DeleteNoneFolder(TestFileName)
+        print ('programming is ending……')
+        end = time.time()
+        print ('spend time = ', end - start, 's')
 
-    print ('time = ', end - start, 's')
-    print ('programming is ending……')
+
+# 怕出现网络异常，而做的处理
+while True:
+    exceptFlag = True
+    while exceptFlag:
+        try:
+            print "测试异常"
+            start()
+        except:
+            print "处理异常"
+            time.sleep(0.1)
+            exceptFlag = True
+        else:
+            print "没有异常"
+            # start()
+
