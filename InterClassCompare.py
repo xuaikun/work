@@ -12,6 +12,7 @@ import shutil
 TestFileName = "E:\\000007work\\testdata"
 BackupFileName = "E:\\000007work\\testdata_backup"
 PoolFileName = "D:\\000000Aikun_Xu\\Aikun_Xu\\0000work\\3_pool"
+ResulFiletName = "E:\\000007work\\testdata_result"
 
 
 def RootFilder():
@@ -156,6 +157,12 @@ def SecondFilder(FilePath):
                     if float(float(Same) / float(NewPhotoNum)) >= 0.6:
                         print '&&&&&&&&&&&&&&&&&&&&保留#######################'
                         break
+    # 按道理一对第i个文件夹操作完成，将操作完成的文件夹剪切到目标文件夹
+    # 原文件夹为:path 目标文件夹为ResulFiletName
+    print 'FilePath = ', FilePath
+    shutil.move(FilePath, ResulFiletName)
+    # 删除空文件夹
+    B.DeleteNoneFolder(TestFileName)
     return
 
 # 程序从这里开始执行
@@ -176,17 +183,21 @@ def start():
 
 
 # 怕出现网络异常，而做的处理
-while True:
-    exceptFlag = True
-    while exceptFlag:
-        try:
-            print "测试异常"
-            start()
-        except:
-            print "处理异常"
-            time.sleep(0.1)
-            exceptFlag = True
-        else:
-            print "没有异常"
-            # start()
 
+exceptFlag = True
+while exceptFlag:
+    try:
+        print "测试异常"
+        start()
+        RootPath = A.fileInFolder(TestFileName)
+        # 如果目标文件夹中没有文件了，直接退出
+        RootPathFileNum = RootPath.__len__()
+        if RootPathFileNum == 0:
+            exceptFlag = False
+    except:
+        print "处理异常"
+        time.sleep(0.1)
+        exceptFlag = True
+    else:
+        print "没有异常"
+        # start()
