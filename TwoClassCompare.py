@@ -172,16 +172,22 @@ def start():
 
 
 # 怕出现网络异常，而做的处理
-while True:
-    exceptFlag = True
-    while exceptFlag:
-        try:
-            print "测试异常"
-            start()
-        except:
-            print "处理异常"
-            time.sleep(0.1)
-            exceptFlag = True
-        else:
-            print "没有异常"
-            # start()
+
+exceptFlag = True
+while exceptFlag:
+    try:
+        print "测试异常"
+        start()
+        RootPath = A.fileInFolder(TestFileName)
+        # 统计第三层文件夹中有多少个子文件夹
+        RootPathFileNum = RootPath.__len__()
+        if RootPathFileNum == 0:
+            exceptFlag = False
+    except:
+        print "处理异常"
+        time.sleep(0.1)
+        exceptFlag = True
+    else:
+        print "没有异常"
+        # start()
+
