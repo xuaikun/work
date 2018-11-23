@@ -9,10 +9,10 @@ import shutil
 # 获取当前路径下所以子文件【可以是文件夹，也可以是文件】
 # A.fileInFolder()
 
-TestFileName = "E:\\000007work\\testdata"
+TestFileName = "F:\\sum"
 BackupFileName = "D:\\222222222222222222 - Backup"
 PoolFileName = "D:\\000000Aikun_Xu\\Aikun_Xu\\0000work\\3_pool"
-ResulFiletName = "E:\\000007work\\testdata_result"
+ResulFiletName = "F:\\result"
 
 def root_folder():
     # 获取测试目录下文件夹的总和
@@ -54,18 +54,19 @@ def second_folder(filepath):
         ThreePath = A.fileInFolder(filepath)  # 获取第三层目录下的文件夹总和 例如：D:\\3_test\\445\\49
         # 统计第三层文件夹中有多少个子文件夹
         ThreePathFileNum = ThreePath.__len__()
+        print 'ThreePathFileNum = ', ThreePathFileNum
         if ThreePathFileNum == 0:
             # 若文件夹里面没有文件了，直接退出
-            print ('ThreePathFileNum =', ThreePathFileNum )
+            # print ('ThreePathFileNum =', ThreePathFileNum )
             print ('退出while')
             break
         # print ('ThreePathFileNum = ', ThreePathFileNum)
         # print ('ThreePath', ThreePath)
         # 每次都从第一个开始遍历
         i = 0
-        print ('i =', i)
+        # print ('i =', i)
         path = ThreePath[i]
-        print ('ThreePath[ ', i, '] = ', path)
+        # print ('ThreePath[ ', i, '] = ', path)
         # print ('ThreePath = ')                 # 第三层目录下的单个文件夹名称 例如：path = D:\\3_test\\445\\49
         # print (path)
         # Photo = A.fileInFolder(path)
@@ -76,7 +77,7 @@ def second_folder(filepath):
         StorePath.append(path)
         new_path = os.path.split(path)
         result_path = os.path.join(ResulFiletName, new_path[1])
-        print ("选中第一个文件夹作为基准库，检查该文件夹所在文件夹还有其他文件夹与它文件相似")
+        # print ("选中第一个文件夹作为基准库，检查该文件夹所在文件夹还有其他文件夹与它文件相似")
         # ThreePath 表示第三层 文件夹的总和
         NewThreePath = A.fileInFolder(filepath)  # 获取第三层目录下的文件夹总和 例如：D:\\3_test\\445\\49
         # 统计第三层文件夹中有多少个子文件夹
@@ -86,7 +87,7 @@ def second_folder(filepath):
             Newpath = NewThreePath[i]
             # 保证选取的文件夹与基准文件夹不相同
             if Newpath != path:
-                print ('Newpath = ', Newpath)
+                # print ('Newpath = ', Newpath)
                 # 如果两次路径不一样，则进行操作
                 # 从当前两个文件夹里面各任意抽出10张图片，即：10对进行比较
                 # BaseFolder 和 CompFolder包含了所有图片
@@ -129,20 +130,20 @@ def second_folder(filepath):
                             BaseComp_Same = BaseComp_Same + 1
                         else:
                             BaseComp_Different = BaseComp_Different + 1
-                print ('BaseComp_Same = ', BaseComp_Same )
-                print ('BaseComp_Different', BaseComp_Different)
+                # print ('BaseComp_Same = ', BaseComp_Same )
+                # print ('BaseComp_Different', BaseComp_Different)
                 # 这里主要比较两个文件夹中图片的相似度
                 if BaseComp_Same > BaseComp_Different:
                     # 两个文件夹及其相似 放到同一个文件夹底下
                     StorePath.append(Newpath)   # 将相似的文件夹保存到一起
-                    print 'StorePath = ', StorePath
+                    # print 'StorePath = ', StorePath
 
         # 可以剪切 StorePath 到目标文件夹了
         StorePathLen = StorePath.__len__()
-        print 'StorePathLen = ', StorePathLen
-        print '以下的文件夹应该剪切到一块去'
+        # print 'StorePathLen = ', StorePathLen
+        # print '以下的文件夹应该剪切到一块去'
         for p in range(0, StorePathLen):
-            print 'StorePath[p] = ', StorePath[p]
+            # print 'StorePath[p] = ', StorePath[p]
             # result_path 是目标文件夹的根
             # SplitPathNew 主要为了获得 它的最后一级目录
             SplitPathNew = os.path.split(StorePath[p])
