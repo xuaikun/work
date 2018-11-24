@@ -1,6 +1,7 @@
 # encoding: utf-8
 # 脚本的功能：
 # 已经有基准的图片库了，可以实现从其他库中提取出相同的图片进入对应的基准图片库
+# 基准库的第一张图片必须清晰
 import Function as A                            # 调用Function.py里面定义的函数
 import os
 import Face_Match as B                          # 调用Face_Match.py里面定义的函数
@@ -9,9 +10,9 @@ import time
 import shutil
 
 # 定义一些制定路径
-base_folder = "E:\\000007work\\base_set"
-test_folder = "E:\\000007work\\test_set"
-result_folder = "E:\\000007work\\result"
+base_folder = "F:\\base_set"
+test_folder = "F:\\img"
+result_folder = "F:\\result"
 
 
 def root_folder():
@@ -37,11 +38,12 @@ def second_folder(FilePath):
     ThreePath = A.fileInFolder(FilePath)        # 获取第三层目录下的文件夹总和 例如：D:\\3_test\\445\\49
     # 统计第三层文件夹中有多少个子文件夹
     ThreePathFileNum = ThreePath.__len__()
-    print ('ThreePathFileNum = ', ThreePathFileNum)
+    # print ('ThreePathFileNum = ', ThreePathFileNum)
     # print ('ThreePath = ', ThreePath)
     for i in range(0, ThreePathFileNum):  # 循环遍历基准库
         # print ('ThreePathFileNum = ', ThreePathFileNum)
         # 将文件夹一个一个遍历
+        a = random.randint(0, ThreePathFileNum - 1)
         path = ThreePath[i]
         print ('ThreePath[ ', i, '] = ', path)
         # 获得第i个基准库的所有图片
@@ -63,6 +65,7 @@ def second_folder(FilePath):
         print 'test_set_num =', test_set_num
         # 循环遍历每一个测试库文件夹
         for j in range(0, test_set_num):
+            print "开始遍历第j个测试文件夹", j
             # 提取第j个测试库文件夹
             test_set_j = test_set[j]
             # 读取测试库文件夹中所有图片
@@ -73,6 +76,15 @@ def second_folder(FilePath):
             for k in range(0, test_set_j_photo_len):
                 # test_set_j_photo[k] 表示第j个测试库中第k张图片
                 # Photo[x] 表示第i个基准库中第x张图片
+                # 提取第j个测试库文件夹
+                test_set_j_new = test_set[j]
+                # 读取测试库文件夹中所有图片
+                test_set_j_photo_new = A.fileInFolder(test_set_j_new)
+                # 统计第j个测试库文件夹中图片的数量
+                test_set_j_photo_len_new = test_set_j_photo_new.__len__()
+                # 按顺序循环遍历第j个文件夹中的图片
+                print " k = ", k
+                print "the num of photo =", test_set_j_photo_len_new
 
                 goal = A.Face_To_Match(test_set_j_photo[k], Photo[0])
                 time.sleep(0.4)  # 延时0.4s QPS不免费调用接口容易出错
@@ -95,7 +107,7 @@ def second_folder(FilePath):
                     # 确定基准库的方法以及阈值
                     # 没有异常
                     # score >= 55 表示图片为同一个人 55 为临界值
-                    print 'score =', score
+                    # print 'score =', score
                     if (score >= 55) and (score < 60):
                         # 将图片剪切到55_60文件夹
                         NewPhotoPath = os.path.join(path, '55_60')
@@ -130,7 +142,7 @@ def second_folder(FilePath):
                         shutil.move(test_set_j_photo[k], NewPhotoPath)
                     # elif score < 55: # 其他情况下就测试文件夹中的图片不变
 
-                # 否则 保留 图片 遍历当前测试库的下一张图片
+                    # 否则 保留 图片 遍历当前测试库的下一张图片
         # 将分好类的基准库文件存入 结果文件夹
         shutil.move(path, result_folder)
     return
