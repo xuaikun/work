@@ -73,48 +73,63 @@ def second_folder(FilePath):
             for k in range(0, test_set_j_photo_len):
                 # test_set_j_photo[k] 表示第j个测试库中第k张图片
                 # Photo[x] 表示第i个基准库中第x张图片
-                # 初始化 比较情况的 数量
-                Same = 0
-                Different = 0
-                for q in range(0, 6):
-                    # PhotoNum 为基准库中图片数量
-                    # 随机选取10张其中的图片用作基准图片
-                    # 随机选取基准图片的位置为b
-                    b = random.randint(0, PhotoNum - 1)
-                    # 基准库中的图片与选择的测试库中的图片进行比较
-                    goal = A.Face_To_Match(test_set_j_photo[k], Photo[b])
-                    time.sleep(0.4)  # 延时0.4s QPS不免费调用接口容易出错
-                    # 应该做个异常处理 (必须做)
-                    try:
-                        # 测试异常
-                        result = goal.get('result')
-                        # score 是比较得分
-                        score = result.get('score')
-                    except AttributeError:
-                        # 异常处理
-                        # result = {}
-                        # score = 0
-                        print "进行异常处理"
-                        print 'Same =', Same
-                        print 'Different = ', Different
-                        # NewPhotoNum = NewPhotoNum - 1
-                        # Different = Different + 1
-                    else:
-                        # 确定基准库的方法以及阈值
-                        # 没有异常
-                        # score >= 55 表示图片为同一个人 55 为临界值
-                        print 'score =', score
-                        if score >= 55:
-                            Same = Same + 1
-                            # print ('Same = ', Same)
-                        elif score < 55:
-                            Different = Different + 1
-                # 当相同的数目大于不同的数目
-                # 则将第j个测试文件夹中第k中图片剪切到第i个基准库中
-                print 'Same = ', Same
-                print 'Different =', Different
-                if Same > Different:
-                    shutil.move(test_set_j_photo[k], path)
+
+                goal = A.Face_To_Match(test_set_j_photo[k], Photo[0])
+                time.sleep(0.4)  # 延时0.4s QPS不免费调用接口容易出错
+                # 应该做个异常处理 (必须做)
+                try:
+                    # 测试异常
+                    result = goal.get('result')
+                    # score 是比较得分
+                    score = result.get('score')
+                except AttributeError:
+                    # 异常处理
+                    # result = {}
+                    # score = 0
+                    print "进行异常处理"
+                    # print 'Same =', Same
+                    # print 'Different = ', Different
+                    # NewPhotoNum = NewPhotoNum - 1
+                    # Different = Different + 1
+                else:
+                    # 确定基准库的方法以及阈值
+                    # 没有异常
+                    # score >= 55 表示图片为同一个人 55 为临界值
+                    print 'score =', score
+                    if (score >= 55) and (score < 60):
+                        # 将图片剪切到55_60文件夹
+                        NewPhotoPath = os.path.join(path, '55_60')
+                        isExist = os.path.exists(NewPhotoPath)
+                        if not isExist:
+                            print "不存在该路径，创建对应路径"
+                            os.makedirs(NewPhotoPath)
+                        shutil.move(test_set_j_photo[k], NewPhotoPath)
+                    elif (score >= 60) and (score < 70):
+                        # 将图片剪切到60_70文件夹
+                        NewPhotoPath = os.path.join(path, '60_70')
+                        isExist = os.path.exists(NewPhotoPath)
+                        if not isExist:
+                            print "不存在该路径，创建对应路径"
+                            os.makedirs(NewPhotoPath)
+                        shutil.move(test_set_j_photo[k], NewPhotoPath)
+                    elif (score >= 70) and (score < 80):
+                        # 将图片剪切到70_80文件夹
+                        NewPhotoPath = os.path.join(path, '70_80')
+                        isExist = os.path.exists(NewPhotoPath)
+                        if not isExist:
+                            print "不存在该路径，创建对应路径"
+                            os.makedirs(NewPhotoPath)
+                        shutil.move(test_set_j_photo[k], NewPhotoPath)
+                    elif score >= 80:
+                        # 将图片剪切到80_100文件夹
+                        NewPhotoPath = os.path.join(path, '80_100')
+                        isExist = os.path.exists(NewPhotoPath)
+                        if not isExist:
+                            print "不存在该路径，创建对应路径"
+                            os.makedirs(NewPhotoPath)
+                        shutil.move(test_set_j_photo[k], NewPhotoPath)
+                    # elif score < 55: # 其他情况下就测试文件夹中的图片不变
+
                 # 否则 保留 图片 遍历当前测试库的下一张图片
         # 将分好类的基准库文件存入 结果文件夹
         shutil.move(path, result_folder)
