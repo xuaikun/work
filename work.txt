@@ -60,3 +60,6 @@ else:
 2018年11月27日：
 opencv下载链接：https://opencv.org/
 解决opencv 在window10和vs2017上的一些列操作问题：https://blog.csdn.net/mars_xiaolei/article/details/78759041
+出现这个错误：error C2664
+可以直接强转类型解决：
+MRESULT res = ASFActivation((MPChar)(APPID), (MPChar)(SDKKey));
