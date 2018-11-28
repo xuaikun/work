@@ -58,11 +58,12 @@ else:
 解决电脑崩溃的原因，直接把程序进行死循环，并做异常处理
 
 2018年11月27日：
-想调用虹软的人脸识别sdk，首先注册账号并下载离线sdk，如链接：
-http://ai.arcsoft.com.cn/manual/arcface_windows_guideV2.html
+
 想运用虹软的人脸识别sdk需要提前安装opencv
 opencv下载链接：https://opencv.org/releases.html  下载opencv 2.4.9 WinPack 运行解压就好 非常棒
 解决opencv 在window10和vs2017上的一些列操作问题：https://blog.csdn.net/mars_xiaolei/article/details/78759041
+解决调用虹软的人脸识别sdk的方案，首先注册账号并下载离线sdk，如链接：
+http://ai.arcsoft.com.cn/manual/arcface_windows_guideV2.html
 运行例子出现这个错误：error C2664，例子中有一个地方被修改了，记得修改 是MERR_ASF_ALREADY_ACTIVATED， 而不是MERR_ASF_BASE_ALREADY_ACTIVATED
 可以直接强转类型解决：
 MRESULT res = ASFActivation((MPChar)(APPID), (MPChar)(SDKKey));
