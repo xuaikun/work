@@ -81,3 +81,4 @@
    第十五天，今天任务，就是把虹软的sdk用起~
  2018年11月28日：
    第十六天，把自己的电脑跑起虹软的sdk~，虹软sdk跑成功了，接下来就是看如何把虹软sdk离线晒图片！
+   好生看看这篇博客： https://blog.csdn.net/zhubenfulovepoem/article/details/51204551
