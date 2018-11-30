@@ -4,7 +4,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
-#include <time.h> /*ÓÃµ½ÁËtimeº¯Êı£¬ËùÒÔÒªÓĞÕâ¸öÍ·ÎÄ¼ş*/
+#include <time.h> /*ç”¨åˆ°äº†timeå‡½æ•°ï¼Œæ‰€ä»¥è¦æœ‰è¿™ä¸ªå¤´æ–‡ä»¶*/
 #include <fstream>
 #include <sstream>
 #include <exception>
@@ -16,15 +16,15 @@
 
 using namespace cv;
 using namespace std;
-//config.txtÎªÒª´¦ÀíµÄ¸úÄ¿Â¼£¬ÔÚÑµÁ·modelÖĞ£¬config.txtÖĞµÄÄÚÈİÎªÑµÁ·ÊÇµÄÑù±¾¿â£¬1-13·ÖÀàºÃÁË¡£--
-//ÔÚÑù±¾É¸Ñ¡modelÖĞ£¬config.txtÀïµÄÄÚÈİÎªÒªÉ¸Ñ¡µÄÑù±¾¿â£¬Î´·ÖÀà¡£---
+//config.txtä¸ºè¦å¤„ç†çš„è·Ÿç›®å½•ï¼Œåœ¨è®­ç»ƒmodelä¸­ï¼Œconfig.txtä¸­çš„å†…å®¹ä¸ºè®­ç»ƒæ˜¯çš„æ ·æœ¬åº“ï¼Œ1-13åˆ†ç±»å¥½äº†ã€‚--
+//åœ¨æ ·æœ¬ç­›é€‰modelä¸­ï¼Œconfig.txté‡Œçš„å†…å®¹ä¸ºè¦ç­›é€‰çš„æ ·æœ¬åº“ï¼Œæœªåˆ†ç±»ã€‚---
 char configFile[100] = "config.txt";
-//Ä³¸ö¸ùÄ¿Â¼µÄÍ¼Æ¬±£´æÔÚimgNamesÀïÃæ
+//æŸä¸ªæ ¹ç›®å½•çš„å›¾ç‰‡ä¿å­˜åœ¨imgNamesé‡Œé¢
 extern vector<string> imgNames[2];
 extern vector<string> imgNames_real[2];
 int labelTemp = 0;
 
-//¶ÁÈ¡configÎÄ¼şÀïµÄÄÚÈİ--
+//è¯»å–configæ–‡ä»¶é‡Œçš„å†…å®¹--
 char* trainSetPosPath = (char *)malloc(200 * sizeof(char));
 void readConfig(char* configFile, char* trainSetPosPath, int i) {
 	fstream f;
@@ -35,7 +35,7 @@ void readConfig(char* configFile, char* trainSetPosPath, int i) {
 	char param2[200]; strcpy(param2, "");
 	char param3[200]; strcpy(param3, "");
 
-	//--¶ÁÈ¡µÚÒ»ĞĞ£º--
+	//--è¯»å–ç¬¬ä¸€è¡Œï¼š--
 	f.getline(cstring, sizeof(cstring));
 	readS = sscanf(cstring, "%s %s %s", param1, param2, param3);
 	if (i == 0)
@@ -49,8 +49,8 @@ void readConfig(char* configFile, char* trainSetPosPath, int i) {
 
 }
 
-//±éÀúconfig.txtÀïµÄ¸ùÄ¿Â¼ÏÂµÄËùÓĞµÄÎÄ¼ş£¬°üÀ¨×ÓÄ¿Â¼¡£--
-// ÆäÖĞ×ÓÄ¿Â¼µÄÃû×Ö¾ÍÊÇlabel£¬×ÓÄ¿Â¼ÀïµÄÎÄ¼şÎªlabel¶ÔÓÚµÄÑµÁ·²âÊÔÑù±¾---
+//éå†config.txté‡Œçš„æ ¹ç›®å½•ä¸‹çš„æ‰€æœ‰çš„æ–‡ä»¶ï¼ŒåŒ…æ‹¬å­ç›®å½•ã€‚--
+// å…¶ä¸­å­ç›®å½•çš„åå­—å°±æ˜¯labelï¼Œå­ç›®å½•é‡Œçš„æ–‡ä»¶ä¸ºlabelå¯¹äºçš„è®­ç»ƒæµ‹è¯•æ ·æœ¬---
 
 
 void dfsFolder(string folderPath, int i) {
@@ -63,14 +63,14 @@ void dfsFolder(string folderPath, int i) {
 		exit(-1);
 	}
 	do {
-		//ÅĞ¶ÏÊÇ·ñÓĞ×ÓÄ¿Â¼--
+		//åˆ¤æ–­æ˜¯å¦æœ‰å­ç›®å½•--
 		if (FileInfo.attrib & _A_SUBDIR) {
 			//  cout<<FileInfo.name<<" "<<FileInfo.attrib<<endl;
-			//Õâ¸öÓï¾äºÜÖØÒª--
+			//è¿™ä¸ªè¯­å¥å¾ˆé‡è¦--
 			if ((strcmp(FileInfo.name, ".") != 0) && (strcmp(FileInfo.name, "..") != 0)) {
 				string newPath = folderPath + "\\" + FileInfo.name;
 				//cout << FileInfo.name << " " << newPath << endl;
-				//¸ùÄ¿Â¼ÏÂÏÂµÄ×ÓÄ¿Â¼Ãû×Ö¾ÍÊÇlabelÃû£¬Èç¹ûÃ»ÓĞ×ÓÄ¿Â¼ÔòÆäÎª¸ùÄ¿Â¼ÏÂ
+				//æ ¹ç›®å½•ä¸‹ä¸‹çš„å­ç›®å½•åå­—å°±æ˜¯labelåï¼Œå¦‚æœæ²¡æœ‰å­ç›®å½•åˆ™å…¶ä¸ºæ ¹ç›®å½•ä¸‹
 				labelTemp = atoi(FileInfo.name);
 				//  printf("%d\n",labelTemp);
 				dfsFolder(newPath, i);
@@ -79,11 +79,11 @@ void dfsFolder(string folderPath, int i) {
 		else {
 			string finalName = folderPath + "\\" + FileInfo.name;
 			string finalName_new = FileInfo.name;
-			//½«ËùÓĞµÄÎÄ¼şÃûĞ´ÈëÒ»¸ötxtÎÄ¼ş--
+			//å°†æ‰€æœ‰çš„æ–‡ä»¶åå†™å…¥ä¸€ä¸ªtxtæ–‡ä»¶--
 			//  cout << FileInfo.name << "\t";
 			//  printf("%d\t",label);
 			//  cout << folderPath << "\\" << FileInfo.name  << " " <<endl;
-			//½«ÎÄ¼şÃû×ÖºÍlabelÃû×Ö£¨×ÓÄ¿Â¼Ãû×Ö¸³Öµ¸øÏòÁ¿£©--
+			//å°†æ–‡ä»¶åå­—å’Œlabelåå­—ï¼ˆå­ç›®å½•åå­—èµ‹å€¼ç»™å‘é‡ï¼‰--
 			
 			//cout << "finalName_new  = " << finalName_new << endl;
 			imgNames[i].push_back(finalName);
@@ -102,19 +102,52 @@ void initTrainImage(char *configFileName, int i) {
 }
 
 
-//ÅúÁ¿¶ÁÈ¡config.txtÀïÃæµÄÎÄ¼şÊ¶±ğ
+//æ‰¹é‡è¯»å–config.txté‡Œé¢çš„æ–‡ä»¶è¯†åˆ«
 void processingTotal(int i) {
 	initTrainImage(configFile, i);
+	if (i == 0)
+	{
+		char distAll[100] = "AlltestFiles.txt";
+		char distAll_new[100] = "AlltestFilesNum.txt";
+		ofstream ofn(distAll);
+		ofstream ofn_new(distAll_new);
+		int imgNum = imgNames[i].size();
+		ofn_new << imgNum << endl;
+		for (int iNum = 0; iNum < imgNum; iNum++) {
 
-	int imgNum = imgNames[i].size();
-	for (int iNum = 0; iNum < imgNum; iNum++) {
+			//cout << endl << iNum << endl;
+			//cout << imgNames[i][iNum].c_str() << endl;
+			ofn << imgNames[i][iNum] << endl;
+			IplImage * src = cvLoadImage(imgNames[i][iNum].c_str(), 1);
+			if (!src) continue;
 
-		//cout << endl << iNum << endl;
-		//cout << imgNames[i][iNum].c_str() << endl;
-		IplImage * src = cvLoadImage(imgNames[i][iNum].c_str(), 1);
-		if (!src) continue;
+			//processing-------------
 
-		//processing-------------
-
+		}
+		ofn_new.close();
+		ofn.close();
 	}
+	if (i == 1)
+	{
+		char distAll[100] = "AllsampleFiles.txt";
+		char distAll_new[100] = "AllsampleFilesNum.txt";
+		ofstream ofn(distAll);
+		ofstream ofn_new(distAll_new);
+		int imgNum = imgNames[i].size();
+		ofn_new << imgNum << endl;
+		for (int iNum = 0; iNum < imgNum; iNum++) {
+
+			//cout << endl << iNum << endl;
+			//cout << imgNames[i][iNum].c_str() << endl;
+			ofn << imgNames[i][iNum] << endl;
+			IplImage * src = cvLoadImage(imgNames[i][iNum].c_str(), 1);
+			if (!src) continue;
+
+			//processing-------------
+
+		}
+		ofn.close();
+	}
+
+	
 }
