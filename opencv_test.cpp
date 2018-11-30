@@ -89,7 +89,7 @@ int main()
 	cout << "sampleNum =" << sampleNum << endl;
 
 	intestfile.open("AlltestFiles.txt", ios::in);
-	int FisrtFolderNum = 0;
+	long FisrtFolderNum = 0;
 	while (!intestfile.eof())
 	{
 		FisrtFolderNum++;
@@ -110,7 +110,7 @@ int main()
 		char fileName[100] = {}; // 测试图片路径
 		StringToChar(testname_new, testname);
 		insamplefile.open("AllsampleFiles.txt", ios::in);
-		int SecondFolderNum = 0;
+		long SecondFolderNum = 0;
 		while(!insamplefile.eof())
 		{
 			SecondFolderNum++;
