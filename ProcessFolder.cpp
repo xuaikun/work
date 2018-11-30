@@ -120,7 +120,9 @@ void processingTotal(int i) {
 			ofn << imgNames[i][iNum] << endl;
 			IplImage * src = cvLoadImage(imgNames[i][iNum].c_str(), 1);
 			if (!src) continue;
-
+			else {
+				cvReleaseImage(&src);
+			}
 			//processing-------------
 
 		}
@@ -142,7 +144,9 @@ void processingTotal(int i) {
 			ofn << imgNames[i][iNum] << endl;
 			IplImage * src = cvLoadImage(imgNames[i][iNum].c_str(), 1);
 			if (!src) continue;
-
+			else {
+				cvReleaseImage(&src);
+			}
 			//processing-------------
 
 		}
