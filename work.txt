@@ -1,4 +1,4 @@
-主要用于人脸对比（识别）：
+﻿主要用于人脸对比（识别）：
 API接口包含我的AppID、API Key、Secret Key： https://console.bce.baidu.com/ai/?_=1542208053975&fromai=1#/ai/face/overview/index
 
 Python SDK解释文档（总的）：
